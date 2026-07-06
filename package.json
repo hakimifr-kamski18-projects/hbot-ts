@@ -8,5 +8,11 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@mtcute/bun": "^0.30.3",
+    "@mtcute/core": "^0.30.3",
+    "@mtcute/dispatcher": "^0.30.3",
+    "filters": "^1.0.6"
   }
 }
