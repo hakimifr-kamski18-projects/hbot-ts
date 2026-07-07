@@ -1,9 +1,11 @@
+import { API_ID, API_HASH, BOT_TOKEN } from "./constants";
+
 import { TelegramClient } from "@mtcute/bun";
 import { Dispatcher, filters } from "@mtcute/dispatcher";
 
 const tg = new TelegramClient({
-  apiId: Number(process.env.API_ID),
-  apiHash: String(process.env.API_HASH),
+  apiId: API_ID,
+  apiHash: API_HASH,
   storage: "Bot-session",
 });
 
@@ -27,6 +29,6 @@ dp.onNewMessage(filters.command("echo"), async (msg) => {
 });
 
 const self = await tg.start({
-  botToken: String(process.env.BOT_TOKEN),
+  botToken: String(BOT_TOKEN),
 });
 console.log(`Logged in as ${self.displayName}`);
