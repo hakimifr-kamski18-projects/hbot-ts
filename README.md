@@ -1,15 +1,10 @@
 # hbot-ts
 
-To install dependencies:
+## Development
+
+Please make sure you install the prettier hook to
+keep the code clean before committing.
 
 ```bash
-bun install
+./install-hook.sh
 ```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
