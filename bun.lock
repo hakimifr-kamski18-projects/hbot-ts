@@ -5,10 +5,11 @@
     "": {
       "name": "hbot-ts",
       "dependencies": {
+        "@logtape/logtape": "^2.3.0",
         "@mtcute/bun": "^0.30.3",
         "@mtcute/core": "^0.30.3",
         "@mtcute/dispatcher": "^0.30.3",
-        "filters": "^1.0.6",
+        "@mtcute/html-parser": "0.30.3",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -26,6 +27,8 @@
     "@fuman/net": ["@fuman/net@0.0.20", "", { "dependencies": { "@fuman/io": "^0.0.20", "@fuman/utils": "^0.0.20" } }, "sha512-JbMbrfiOUhXFdDMlqNLhCkpmeDOtncyop20FuNMWTgIY5PNVlYjZI8pyEC8gT2JswwtJkNe0jJzWemZiSJeZMw=="],
 
     "@fuman/utils": ["@fuman/utils@0.0.20", "", {}, "sha512-c/5W70NtLpeHB/mSytARaov3QGv9GaBidGtHX8LRKaul+J8gspmF6q5uQ9xAFEQEQwhAeHWoq78GEN2S5tiNZw=="],
+
+    "@logtape/logtape": ["@logtape/logtape@2.3.0", "", {}, "sha512-s/pxCgf9Gg75ypTV/bRUq355Dy/JP/zUJWfgJQPO5pTkXC23X2AXBcmBBgFiWH+bSi4yiX/G06qGV8CdAWD3SA=="],
 
     "@mtcute/bun": ["@mtcute/bun@0.30.3", "", { "dependencies": { "@fuman/bun": "0.0.20", "@fuman/io": "0.0.20", "@fuman/net": "0.0.20", "@fuman/utils": "0.0.20", "@mtcute/core": "^0.30.3", "@mtcute/html-parser": "^0.30.3", "@mtcute/markdown-parser": "^0.30.3", "@mtcute/wasm": "^0.30.3" } }, "sha512-QWabEGRc9Quqb508yxNdQ1VIpQRxBfn8kZyr1BaxLRm78EENL6oBormjuD2JWbz+v7ucnzkO/wHW5ewpu3lY6w=="],
 
@@ -60,8 +63,6 @@
     "domutils": ["domutils@3.2.2", "", { "dependencies": { "dom-serializer": "^2.0.0", "domelementtype": "^2.3.0", "domhandler": "^5.0.3" } }, "sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw=="],
 
     "entities": ["entities@7.0.1", "", {}, "sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA=="],
-
-    "filters": ["filters@1.0.6", "", {}, "sha512-adcV9V6FfG1nEuvjd3zMn8FpWRaO3211p45yZVo//Gq7Y5Zq2FbE7cTznrv8tGYMXyVoK0y2hH5sl+yD/MiWiA=="],
 
     "htmlparser2": ["htmlparser2@10.1.0", "", { "dependencies": { "domelementtype": "^2.3.0", "domhandler": "^5.0.3", "domutils": "^3.2.2", "entities": "^7.0.1" } }, "sha512-VTZkM9GWRAtEpveh7MSF6SjjrpNVNNVJfFup7xTY3UpFtm67foy9HDVXneLtFVt4pMz5kZtgNcvCniNFb1hlEQ=="],
 

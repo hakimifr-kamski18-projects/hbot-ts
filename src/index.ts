@@ -1,7 +1,19 @@
-import { API_ID, API_HASH, BOT_TOKEN } from "./constants";
-
 import { TelegramClient } from "@mtcute/bun";
-import { Dispatcher, filters } from "@mtcute/dispatcher";
+import { Dispatcher } from "@mtcute/dispatcher";
+import { dispose as disposeLogging } from "@logtape/logtape";
+
+import { API_ID, API_HASH, BOT_TOKEN } from "./constants";
+import { setupLogging, log } from "./core/logger";
+import {
+  discoverPlugins,
+  registerPlugins,
+  disposePlugins,
+} from "./core/loader";
+import { setLoadedPlugins } from "./core/registry";
+import type { Plugin } from "./core/plugin";
+
+await setupLogging();
+const logger = log("main");
 
 const tg = new TelegramClient({
   apiId: API_ID,
@@ -9,26 +21,29 @@ const tg = new TelegramClient({
   storage: "Bot-session",
 });
 
-// Dispatcher used for managing updates.
+// Dispatcher used for managing updates. Each plugin gets a child of this.
 const dp = Dispatcher.for(tg);
 
-dp.onNewMessage(filters.command("start"), async (msg) => {
-  await msg.replyText("Hello from hbot!");
-});
+const discovered = await discoverPlugins();
+const loaded: Plugin[] = await registerPlugins(tg, dp, discovered);
+setLoadedPlugins(loaded);
+logger.info("{count} plugin(s) loaded", { count: loaded.length });
 
-dp.onNewMessage(filters.command("echo"), async (msg) => {
-  const args = msg.command.slice(1);
+const self = await tg.start({ botToken: BOT_TOKEN });
+logger.info("logged in as {name}", { name: self.displayName });
 
-  if (args.length === 0) {
-    await msg.replyText("Please provide args after the command.");
-    return; // To prevent the rest of code from running.
-  }
+let shuttingDown = false;
 
-  const fulltext = args.join(" ");
-  await msg.replyText(fulltext);
-});
+async function shutdown(signal: string): Promise<void> {
+  if (shuttingDown) return;
+  shuttingDown = true;
 
-const self = await tg.start({
-  botToken: String(BOT_TOKEN),
-});
-console.log(`Logged in as ${self.displayName}`);
+  logger.info("received {signal}, shutting down", { signal });
+  await disposePlugins(loaded);
+  await tg.destroy();
+  await disposeLogging();
+  process.exit(0);
+}
+
+process.on("SIGINT", () => void shutdown("SIGINT"));
+process.on("SIGTERM", () => void shutdown("SIGTERM"));
