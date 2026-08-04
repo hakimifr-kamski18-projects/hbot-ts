@@ -13,7 +13,7 @@ export default definePlugin({
       filters.command("ping", { prefixes: PREFIXES }),
       async (msg) => {
         const start = performance.now();
-        const sent = await msg.replyText("Pong!");
+        const sent = await msg.edit({ text: "Pong!" });
         const ms = performance.now() - start;
 
         log.info("pong in {ms} ms", { ms });

@@ -16,6 +16,10 @@ async function discoverPlugins(dir: string = PLUGINS_DIR): Promise<Plugin[]> {
   const files = await Array.fromAsync(
     new Glob("*.ts").scan({ cwd: dir, absolute: true }),
   );
+  logger.info("scanned {dir}, found {count} plugins", {
+    dir,
+    count: files.length,
+  });
 
   files.sort();
 

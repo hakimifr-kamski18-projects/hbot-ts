@@ -29,7 +29,7 @@ const loaded: Plugin[] = await registerPlugins(tg, dp, discovered);
 setLoadedPlugins(loaded);
 logger.info("{count} plugin(s) loaded", { count: loaded.length });
 
-const self = await tg.start({ botToken: BOT_TOKEN });
+const self = await tg.start();
 logger.info("logged in as {name}", { name: self.displayName });
 
 let shuttingDown = false;
@@ -40,7 +40,11 @@ async function shutdown(signal: string): Promise<void> {
 
   logger.info("received {signal}, shutting down", { signal });
   await disposePlugins(loaded);
-  await tg.destroy();
+  try {
+    await tg.destroy();
+  } catch (e: any) {
+    logger.warn(e);
+  }
   await disposeLogging();
   process.exit(0);
 }

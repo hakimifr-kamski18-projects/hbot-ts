@@ -1,10 +1,10 @@
 import {
   configure,
-  getAnsiColorFormatter,
   getConsoleSink,
   getLogger,
   type LogLevel,
 } from "@logtape/logtape";
+import { getPrettyFormatter } from "@logtape/pretty";
 
 import { LOG_LEVEL } from "../constants";
 
@@ -13,7 +13,9 @@ const ROOT = "hbot";
 async function setupLogging(): Promise<void> {
   await configure({
     sinks: {
-      console: getConsoleSink({ formatter: getAnsiColorFormatter() }),
+      console: getConsoleSink({
+        formatter: getPrettyFormatter({ categoryTruncate: false }),
+      }),
     },
     loggers: [
       { category: ROOT, lowestLevel: LOG_LEVEL, sinks: ["console"] },

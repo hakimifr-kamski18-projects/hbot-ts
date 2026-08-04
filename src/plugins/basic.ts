@@ -16,7 +16,7 @@ export default definePlugin({
       filters.command("start", { prefixes: PREFIXES }),
       async (msg) => {
         log.info("start from {chatId}", { chatId: msg.chat.id });
-        await msg.replyText("Hello from hbot!");
+        await msg.edit({ text: "Hello from hbot!" });
       },
     );
 
@@ -27,11 +27,11 @@ export default definePlugin({
         const args = msg.command.slice(1);
 
         if (args.length === 0) {
-          await msg.replyText("Please provide args after the command.");
+          await msg.edit({ text: "Please provide args after the command." });
           return;
         }
 
-        await msg.replyText(args.join(" "));
+        await msg.edit({ text: args.join(" ") });
       },
     );
   },

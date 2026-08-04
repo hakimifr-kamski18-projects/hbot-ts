@@ -44,9 +44,9 @@ export default definePlugin({
 
         // thtml (not html) because it preserves newlines instead of
         // collapsing them, and takes a prebuilt string via its 1-arg overload.
-        await msg.replyText(
-          thtml(`<b>🤖 Bot Commands</b>\n\n${sections.join("\n\n")}`),
-        );
+        await msg.edit({
+          text: thtml(`<b>🤖 Bot Commands</b>\n\n${sections.join("\n\n")}`),
+        });
       },
     );
   },
