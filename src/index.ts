@@ -53,7 +53,7 @@ async function main(): Promise<void> {
 
   if (SESSION_STRING) {
     logger.info("using session string from env var SESSION_STRING");
-    tg.importSession(SESSION_STRING, true);
+    await tg.importSession(SESSION_STRING, true);
   }
 
   const self = await tg.start();
