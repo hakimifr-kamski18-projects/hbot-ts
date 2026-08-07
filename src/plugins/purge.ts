@@ -24,6 +24,8 @@ export default definePlugin({
         const chat = await tg.getChat(msg.chat.id);
         const purgeStartTime = performance.now();
 
+        let shouldDelete: (m: Message | null) => boolean;
+
         if (chat.isForum) {
           log.info("purging in forum/topic mode, this might be slower");
           const targetThreadId = msg.replyToMessage.threadId
@@ -31,52 +33,34 @@ export default definePlugin({
               ? 1
               : msg.replyToMessage.threadId
             : 1;
-          const start = msg.replyToMessage.id!;
-          const end = msg.id;
-          const length = end - start;
-          const msgIds = Array.from({ length }, (_, i) => start + i);
-          const msgs = await tg.getMessages(msg.chat.id, msgIds);
-          let toDelete: Array<Message | null>;
 
           log.info("thread id = {targetThreadId}", { targetThreadId });
 
-          if (targetThreadId != 1)
-            toDelete = msgs.filter(
-              (m) => m?.replyToMessage?.threadId === targetThreadId,
-            );
-          else toDelete = msgs.filter((m) => m && !m?.isTopicMessage);
-
-          await tg.deleteMessages(toDelete as Message[], { revoke: true });
-          const purgeTimeDelta = performance.now() - purgeStartTime;
-          log.info("purge completed in {purgeTimeDelta} ms", {
-            purgeTimeDelta,
-          });
-          msg.edit({
-            text: md(
-              `__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`,
-            ),
-          });
+          shouldDelete =
+            targetThreadId != 1
+              ? (m) => m?.replyToMessage?.threadId === targetThreadId
+              : (m) => !!m && !m?.isTopicMessage;
         } else {
           log.info("purging in non-topic group");
-          const start = msg.replyToMessage.id!;
-          const end = msg.id;
-          const length = end - start;
-          const msgIds = Array.from({ length }, (_, i) => start + i);
-          const msgs = await tg.getMessages(msg.chat.id, msgIds);
-
-          const toDelete = msgs.filter((m) => !!m);
-
-          await tg.deleteMessages(toDelete as Message[], { revoke: true });
-          const purgeTimeDelta = performance.now() - purgeStartTime;
-          log.info("purge completed in {purgeTimeDelta} ms", {
-            purgeTimeDelta,
-          });
-          msg.edit({
-            text: md(
-              `__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`,
-            ),
-          });
+          shouldDelete = (m) => !!m;
         }
+
+        const start = msg.replyToMessage.id!;
+        const end = msg.id;
+        const length = end - start;
+        const msgIds = Array.from({ length }, (_, i) => start + i);
+        const msgs = await tg.getMessages(msg.chat.id, msgIds);
+
+        const toDelete = msgs.filter(shouldDelete);
+
+        await tg.deleteMessages(toDelete as Message[], { revoke: true });
+        const purgeTimeDelta = performance.now() - purgeStartTime;
+        log.info("purge completed in {purgeTimeDelta} ms", {
+          purgeTimeDelta,
+        });
+        msg.edit({
+          text: md(`__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`),
+        });
       },
     );
   },
