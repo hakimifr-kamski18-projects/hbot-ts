@@ -61,6 +61,7 @@ export default definePlugin({
         msg.edit({
           text: md(`__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`),
         });
+        setTimeout(async () => tg.deleteMessages([msg]), 5000);
       },
     );
   },
