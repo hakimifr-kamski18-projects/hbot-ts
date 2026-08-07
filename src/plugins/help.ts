@@ -15,7 +15,7 @@ export default definePlugin({
 
   register({ dp, log }) {
     dp.onNewMessage(
-      filters.command("help", { prefixes: PREFIXES }),
+      filters.and(filters.command("help", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
         const plugins = getLoadedPlugins();
         log.info("building help for {count} plugin(s)", {

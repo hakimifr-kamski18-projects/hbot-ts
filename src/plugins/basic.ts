@@ -13,7 +13,7 @@ export default definePlugin({
 
   register({ dp, log }) {
     dp.onNewMessage(
-      filters.command("start", { prefixes: PREFIXES }),
+      filters.and(filters.command("start", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
         log.info("start from {chatId}", { chatId: msg.chat.id });
         await msg.edit({ text: "Hello from hbot!" });
@@ -21,7 +21,7 @@ export default definePlugin({
     );
 
     dp.onNewMessage(
-      filters.command("echo", { prefixes: PREFIXES }),
+      filters.and(filters.command("echo", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
         // msg.command[0] is the command itself; the rest are arguments.
         const args = msg.command.slice(1);

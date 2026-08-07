@@ -14,7 +14,7 @@ export default definePlugin({
 
   register({ tg, dp, log }) {
     dp.onNewMessage(
-      filters.command("purge", { prefixes: PREFIXES }),
+      filters.and(filters.command("purge", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
         if (!msg.replyToMessage) return;
 

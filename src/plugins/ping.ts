@@ -10,7 +10,7 @@ export default definePlugin({
 
   register({ tg, dp, log }) {
     dp.onNewMessage(
-      filters.command("ping", { prefixes: PREFIXES }),
+      filters.and(filters.command("ping", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
         const start = performance.now();
         const sent = await msg.edit({ text: "Pong!" });
