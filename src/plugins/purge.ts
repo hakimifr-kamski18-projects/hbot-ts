@@ -22,6 +22,7 @@ export default definePlugin({
         msg.edit({ text: md("__Purging...__") });
 
         const chat = await tg.getChat(msg.chat.id);
+        const purgeStartTime = performance.now();
 
         if (chat.isForum) {
           log.info("purging in forum/topic mode, this might be slower");
@@ -59,8 +60,11 @@ export default definePlugin({
           const toDelete = msgs.filter((m) => !!m);
 
           await tg.deleteMessages(msgs as Message[], { revoke: true });
-          log.info("purge completed");
-          msg.edit({ text: md("__Purge completed!__") });
+          const purgeTimeDelta = performance.now() - purgeStartTime;
+          log.info("purge completed in {purgeTimeDelta}", { purgeTimeDelta });
+          msg.edit({
+            text: md(`__Purge completed! Took ${purgeTimeDelta.toFixed(3)}__`),
+          });
         }
       },
     );
