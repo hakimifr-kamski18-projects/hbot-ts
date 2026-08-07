@@ -47,8 +47,15 @@ export default definePlugin({
           else toDelete = msgs.filter((m) => m && !m?.isTopicMessage);
 
           await tg.deleteMessages(toDelete as Message[], { revoke: true });
-          log.info("purge completed");
-          msg.edit({ text: md("__Purge completed!__") });
+          const purgeTimeDelta = performance.now() - purgeStartTime;
+          log.info("purge completed in {purgeTimeDelta} ms", {
+            purgeTimeDelta,
+          });
+          msg.edit({
+            text: md(
+              `__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`,
+            ),
+          });
         } else {
           log.info("purging in non-topic group");
           const start = msg.replyToMessage.id!;
@@ -61,9 +68,13 @@ export default definePlugin({
 
           await tg.deleteMessages(toDelete as Message[], { revoke: true });
           const purgeTimeDelta = performance.now() - purgeStartTime;
-          log.info("purge completed in {purgeTimeDelta}", { purgeTimeDelta });
+          log.info("purge completed in {purgeTimeDelta} ms", {
+            purgeTimeDelta,
+          });
           msg.edit({
-            text: md(`__Purge completed! Took ${purgeTimeDelta.toFixed(3)}__`),
+            text: md(
+              `__Purge completed! Took ${purgeTimeDelta.toFixed(3)} ms__`,
+            ),
           });
         }
       },
