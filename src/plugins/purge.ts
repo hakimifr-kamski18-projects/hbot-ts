@@ -59,7 +59,7 @@ export default definePlugin({
 
           const toDelete = msgs.filter((m) => !!m);
 
-          await tg.deleteMessages(msgs as Message[], { revoke: true });
+          await tg.deleteMessages(toDelete as Message[], { revoke: true });
           const purgeTimeDelta = performance.now() - purgeStartTime;
           log.info("purge completed in {purgeTimeDelta}", { purgeTimeDelta });
           msg.edit({
