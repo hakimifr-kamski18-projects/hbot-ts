@@ -16,7 +16,7 @@ export default definePlugin({
     dp.onNewMessage(
       filters.and(filters.command("purge", { prefixes: PREFIXES }), filters.me),
       async (msg) => {
-        if (!msg.replyToMessage) {
+        if (!msg.replyToMessage?.id) {
           const m = await msg.edit({ text: md("__Reply to a message!__") });
           setTimeout(async () => tg.deleteMessages([m]), 3000);
           return;
