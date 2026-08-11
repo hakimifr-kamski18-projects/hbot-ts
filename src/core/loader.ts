@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const logger = log("core", "loader");
 
-const PLUGINS_DIR = fileURLToPath(new URL("../plugins/", import.meta.url))
+const PLUGINS_DIR = fileURLToPath(new URL("../plugins/", import.meta.url));
 
 /** File starting with '_' will be skipped from being loaded. */
 async function discoverPlugins(dir: string = PLUGINS_DIR): Promise<Plugin[]> {
