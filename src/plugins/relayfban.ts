@@ -52,7 +52,7 @@ export default definePlugin({
 
         const args: string[] = msg.text.split(" ");
         let command: string;
-        if (["rf", "relayfban"].includes(args[0]!)) command = "fban";
+        if (["rf", "relayfban"].includes(args[0]!.slice(1))) command = "fban";
         else command = "unfban";
         args.shift();
 
