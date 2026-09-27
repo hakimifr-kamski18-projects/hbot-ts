@@ -14,14 +14,17 @@ const WHITELIST: number[] = [
 
 export default definePlugin({
   name: "relayfban",
-  description: "allows group admin to fban through me",
+  description: "allows group admin to fban/unfban through me",
   commands: [
     { name: "rf", description: "relay fban the replied user/provided id" },
   ],
 
   register({ tg, dp, log }) {
     dp.onNewMessage(
-      filters.command(["rf", "relayfban"], { prefixes: PREFIXES }),
+      filters.command(
+        ["rf", "relayfban", "unrf", "unrelayfban", "relayunfban"],
+        { prefixes: PREFIXES },
+      ),
       async (msg) => {
         const respond = async (
           t: string | TextWithEntities,
@@ -48,6 +51,9 @@ export default definePlugin({
         }
 
         const args: string[] = msg.text.split(" ");
+        let command: string;
+        if (["rf", "relayfban"].includes(args[0]!)) command = "fban";
+        else command = "unfban";
         args.shift();
 
         const requesterName = msg.sender.displayName;
@@ -77,7 +83,7 @@ export default definePlugin({
         const reason = args.join(" ") ?? "no reason provided";
         tg.sendText(FBAN_CHAT, {
           text:
-            `!fban ${targetUserId} relayfban/relayunfban requested by: ` +
+            `!${command} ${targetUserId} relay${command} requested by: ` +
             `[${requesterName}](tg://user?id=${requesterId}), ` +
             `"message link: ${msg.link}, reason: ${reason}`,
         });
