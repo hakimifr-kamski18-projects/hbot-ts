@@ -8,16 +8,16 @@
     "@types/yargs": "^17.0.35"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@logtape/logtape": "^2.3.0",
-    "@logtape/pretty": "^2.3.0",
+    "@logtape/logtape": "^2.3.8",
+    "@logtape/pretty": "^2.3.8",
     "@mtcute/bun": "0.31.0",
     "@mtcute/core": "0.31.0",
     "@mtcute/dispatcher": "0.31.0",
     "@mtcute/html-parser": "0.31.0",
     "@mtcute/markdown-parser": "0.31.0",
-    "yargs": "^18.1.0"
+    "yargs": "^18.2.0"
   }
 }
