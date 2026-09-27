@@ -81,12 +81,14 @@ export default definePlugin({
         }
 
         const reason = args.join(" ") ?? "no reason provided";
-        const fbanMsg = tg.sendText(FBAN_CHAT, {
-          text:
+        const fbanMsg = tg.sendText(
+          FBAN_CHAT,
+          md(
             `!${command} ${targetUserId} relay${command} requested by: ` +
-            `[${requesterName}](tg://user?id=${requesterId}), ` +
-            `"message link: ${msg.link}, reason: ${reason}`,
-        });
+              `[${requesterName}](tg://user?id=${requesterId}), ` +
+              `"message link: ${msg.link}, reason: ${reason}`,
+          ),
+        );
         fbanMsg.then((msg) => respond(msg.link));
       },
     );
