@@ -89,7 +89,14 @@ export default definePlugin({
               `"message link: ${msg.link}, reason: ${reason}`,
           ),
         );
-        fbanMsg.then((msg) => respond(msg.link));
+        fbanMsg.then((msg) => {
+          log.info(
+            `sending ${command}, requester: ${requesterId}, ` +
+              `target user: ${targetUserId}, admin reasoning: ${reason}, ` +
+              `request message link: ${msg.link}`,
+          );
+          respond(msg.link);
+        });
       },
     );
   },
