@@ -24,5 +24,15 @@ export default definePlugin({
         });
       },
     );
+    dp.onNewMessage(
+      filters.command("romPost", { prefixes: PREFIXES }),
+      async (msg) => {
+        msg.edit({
+          text: md`
+**Request a ROM post at: https://github.com/realme-mt6785-devs/RM6785-ROM-post.git**
+          `,
+        });
+      },
+    );
   },
 });
