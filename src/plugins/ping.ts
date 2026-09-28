@@ -17,7 +17,7 @@ export default definePlugin({
         const ms = performance.now() - start;
 
         log.info("pong in {ms} ms", { ms });
-        await tg.editMessage({
+        tg.editMessage({
           message: sent,
           text: `Pong! latency: ${ms.toFixed(3)} ms`,
         });

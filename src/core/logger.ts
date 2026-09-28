@@ -11,7 +11,7 @@ import { LOG_LEVEL } from "../constants";
 const ROOT = "hbot";
 
 async function setupLogging(): Promise<void> {
-  await configure({
+  return configure({
     sinks: {
       console: getConsoleSink({
         formatter: getPrettyFormatter({ categoryTruncate: false }),

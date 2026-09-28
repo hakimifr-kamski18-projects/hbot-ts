@@ -19,7 +19,7 @@ export default definePlugin({
 
         log.info("Docs URL requested at {chatId}", { chatId });
 
-        await msg.edit({
+        msg.edit({
           text: md`**RM6785 Official Docs**\n\n${docs}`,
         });
       },
