@@ -1,3 +1,4 @@
+import { MtPeerNotFoundError, User } from "@mtcute/core";
 import { filters } from "@mtcute/dispatcher";
 import { md } from "@mtcute/markdown-parser";
 
@@ -72,11 +73,24 @@ export default definePlugin({
           }
           const tId: number = Number.parseInt(args[0]!);
           if (Number.isNaN(tId)) {
-            respond(
-              md("__no user id provided, and you did not reply to anyone!__"),
-            );
+            let u: User;
+            try {
+              u = await tg.getUser(args[0]!.slice(1));
+            } catch (e) {
+              if (e instanceof MtPeerNotFoundError) {
+                respond(
+                  md(
+                    "__no user id provided, and you did not reply to anyone!__",
+                  ),
+                );
+                return;
+              }
+              throw new Error("unknown error when fetching username");
+            }
+            targetUserId = u.id;
+          } else {
+            targetUserId = tId;
           }
-          targetUserId = tId;
           args.shift();
         }
 
