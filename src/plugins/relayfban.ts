@@ -94,7 +94,7 @@ export default definePlugin({
           args.shift();
         }
 
-        const reason = args.join(" ") ?? "no reason provided";
+        const reason = args.join(" ") || "no reason provided";
         const fbanMsg = tg.sendText(
           FBAN_CHAT,
           md(
